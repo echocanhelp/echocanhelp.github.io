@@ -4,12 +4,11 @@
 <script>
 (function(){
   var p = location.pathname;
-  if (p.indexOf('/wiki-public/') === 0) {
-    if (p.charAt(p.length-1) === '/') { location.replace(p.replace(/\/$/,'')); return; }
-    location.replace('/wiki-public/?r=1'); return;
+  try { if (sessionStorage.getItem('ep-bounced')) return; sessionStorage.setItem('ep-bounced','1'); } catch(e) {}
+  if (p.indexOf('/wiki-public/') === 0 && p.charAt(p.length-1) === '/') {
+    location.replace(p.replace(/\/$/,'') + '?cb=' + Date.now()); return;
   }
-  if (location.search.indexOf('r=1') > -1) return;
-  location.replace('/wiki-public/?r=1');
+  location.replace('/wiki-public/?cb=' + Date.now());
 })();
 </script>
 </head><body>

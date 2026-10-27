@@ -6,8 +6,8 @@
 (function(){
   var p = location.pathname;
   if (p.indexOf('/wiki-public') === 0) return;
-  if (location.search.indexOf('r=1') > -1) return;
-  location.replace('/wiki-public/?r=1');
+  try { if (sessionStorage.getItem('ep-bounced')) return; sessionStorage.setItem('ep-bounced','1'); } catch(e) {}
+  location.replace('/wiki-public/?cb=' + Date.now());
 })();
 </script>
 <noscript><meta http-equiv="refresh" content="0; url=/wiki-public/"></noscript>
