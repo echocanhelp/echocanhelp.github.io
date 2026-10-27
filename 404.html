@@ -1,16 +1,26 @@
 <!doctype html>
 <html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Echopedia — Not Found</title>
+<style>body{font-family:system-ui,sans-serif;padding:2rem;text-align:center}a{font-size:1.2rem;display:inline-block;margin-top:1rem;padding:.6rem 1.2rem;background:#1a5fb4;color:#fff;border-radius:8px;text-decoration:none}</style>
+</head><body>
+<p id="s">找不到頁面…</p>
+<a id="l" href="/wiki-public/">前往 Echopedia · Go to Echopedia</a>
 <script>
 (function(){
   var p = location.pathname;
-  try { if (sessionStorage.getItem('ep-bounced')) return; sessionStorage.setItem('ep-bounced','1'); } catch(e) {}
-  if (p.indexOf('/wiki-public/') === 0 && p.charAt(p.length-1) === '/') {
-    location.replace(p.replace(/\/$/,'') + '?cb=' + Date.now()); return;
+  var link = document.getElementById('l');
+  var target = '/wiki-public/';
+  if (p.indexOf('/wiki-public/') === 0 && p.charAt(p.length-1) === '/') target = p.replace(/\/$/,'');
+  link.href = target + (target.indexOf('?')>-1?'&':'?') + 'cb=' + Date.now();
+  var n = 0;
+  try { n = parseInt(sessionStorage.getItem('ep-n') || '0', 10); } catch(e) {}
+  if (n < 3) {
+    try { sessionStorage.setItem('ep-n', String(n+1)); } catch(e) {}
+    location.replace(target + (target.indexOf('?')>-1?'&':'?') + 'cb=' + Date.now());
+  } else {
+    document.getElementById('s').textContent = '點擊下方按鈕繼續 —— Tap the button to continue:';
   }
-  location.replace('/wiki-public/?cb=' + Date.now());
 })();
 </script>
-</head><body>
-<p>找不到頁面—— <a href="/wiki-public/">Echopedia</a></p>
 </body></html>
